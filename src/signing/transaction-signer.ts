@@ -150,32 +150,18 @@ export class BitskiTransactionSigner {
     return new Promise((fulfill, reject) => {
       const url = `${this.webBaseUrl}/transactions/${transaction.id}`;
 
-      // const iframe = document.createElement('iframe');
-      // iframe.style.position = 'absolute';
-      // iframe.style.top = '0';
-      // iframe.style.left = '0';
-      // iframe.style.width = '100%';
-      // iframe.style.height = '100%';
-      // iframe.frameBorder = '0';
-      // iframe.src = url;
-      //
-      // // Dismiss any existing dialogs to prevent UI glitches.
-      // if (this.currentRequestDialog) {
-      //   this.currentRequestDialog.close();
-      // }
-      //
-      // this.currentRequest = [fulfill, reject];
-      // this.currentRequestDialog = new Dialog(iframe, true);
-      // this.currentRequestDialog.onClose = () => {
-      //   // Capture reject callback
-      //   reject(SignerError.UserCancelled());
-      // };
       this.currentRequest = [fulfill, reject];
-      this.currentRequestDialog = window.open(url, '_blank', 'width=400,height=400');
+
+      const left = window.innerWidth / 2;
+      const top = window.innerHeight / 2;
+      this.currentRequestDialog = window.open(
+        url,
+        '_blank',
+        `width=400,height=400,top=${top - 200},left=${left - 200}`,
+      );
 
       const checkChild = () => {
         if (this.currentRequestDialog && this.currentRequestDialog.closed) {
-          console.log('onclose1');
           reject(SignerError.UserCancelled());
           clearInterval(timer);
         }
