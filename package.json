@@ -1,0 +1,62 @@
+{
+  "name": "krypteo",
+  "description": "Krypteo Javascript SDK",
+  "license": "MIT",
+  "main": "lib/bitski.js",
+  "module": "dist/esm/bitski.js",
+  "types": "lib/bitski.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BitskiCo/bitski-js"
+  },
+  "version": "0.0.1",
+  "scripts": {
+    "lint": "eslint . --cache",
+    "test": "jest",
+    "version": "node ./scripts/version.js && git add --all",
+    "build": "tsc -p tsconfig.main.json && tsc -p tsconfig.module.json",
+    "bundle": "npm run bundle:main && npm run bundle:callback && npm run minify",
+    "bundle:main": "browserify -s Bitski -e dist/esm/bitski.js -d -t [ babelify --presets [ @babel/preset-env ] --plugins [ @babel/plugin-transform-runtime ] ] > dist/bitski.bundle.js",
+    "bundle:callback": "browserify dist/esm/callback.js -d -t [ babelify --presets [ @babel/preset-env ] --plugins [ @babel/plugin-transform-runtime ] ] > dist/callback.js",
+    "minify": "terser dist/bitski.bundle.js -o dist/bitski.min.js",
+    "prepack": "npm run build && npm run bundle",
+    "prettier": "prettier --config .prettierrc '{src,tests}/**/*.ts' --write"
+  },
+  "dependencies": {
+    "@bitski/provider-engine": "^0.7.0-beta.2",
+    "@openid/appauth": "^1.2.6",
+    "async": "^3.2.2",
+    "bitski-provider": "^0.14.1",
+    "uuid": "^8.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "@types/jest": "^27.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.2.0",
+    "jest-fetch-mock": "^3.0.3",
+    "prettier": "^2.4.1",
+    "terser": "^4.3.9",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.0.2"
+  },
+  "browserslist": [
+    "last 3 chrome versions",
+    "last 3 firefox versions",
+    "last 3 safari versions",
+    "last 3 ios versions",
+    "last 3 chromeandroid versions",
+    "last 3 edge versions"
+  ],
+  "volta": {
+    "extends": "../../package.json"
+  }
+}
