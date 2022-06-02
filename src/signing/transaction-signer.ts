@@ -148,7 +148,7 @@ export class BitskiTransactionSigner {
     }
 
     return new Promise((fulfill, reject) => {
-      const url = `${this.webBaseUrl}/transactions/${transaction.id}`;
+      const url = `${this.webBaseUrl}/transactions/${transaction.id}?origin=${window.origin}`;
 
       this.currentRequest = [fulfill, reject];
 
