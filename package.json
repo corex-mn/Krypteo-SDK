@@ -7,7 +7,7 @@
   "types": "lib/bitski.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/corexmn/wallet/krypteo-sdk"
+    "url": "https://github.com/corex-mn/Krypteo-SDK"
   },
   "version": "0.0.4",
   "scripts": {
