@@ -7,9 +7,9 @@
   "types": "lib/bitski.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BitskiCo/bitski-js"
+    "url": "https://gitlab.com/corexmn/wallet/krypteo-sdk"
   },
-  "version": "0.0.2",
+  "version": "0.0.4",
   "scripts": {
     "lint": "eslint . --cache",
     "test": "jest",
