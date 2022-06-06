@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/corex-mn/Krypteo-SDK"
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "lint": "eslint . --cache",
     "test": "jest",
