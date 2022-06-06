@@ -1,22 +1,21 @@
 // SDK
-export const SDK_VERSION = '0.14.1';
+export const SDK_VERSION = '0.0.1';
 
 // URLs
-//TODO: fix
-export const BITSKI_USER_API_HOST = 'https://www.krypteo.mn';
-export const BITSKI_TRANSACTION_API_BASE_URL = 'https://api.krypteo.mn/v1';
-export const BITSKI_RPC_BASE_URL = 'https://node.corexchain.io';
+
+export const BITSKI_USER_API_HOST =
+  'https://sso.krypteo.mn/auth/realms/wallet/protocol/openid-connect';
+export const BITSKI_TRANSACTION_API_BASE_URL = 'https://krypteo.mn/service';
+export const BITSKI_RPC_BASE_URL = 'https://krypteo.mn/service/accounts';
 export const BITSKI_WEB_BASE_URL = 'https://krypteo.mn';
 export const IFRAME_MESSAGE_ORIGIN_INCLUDES = '.krypteo.mn';
 
 // OAuth
 export const DEFAULT_OAUTH_CONFIGURATION = {
-  authorization_endpoint:
-    'https://account.krypteo.mn/auth/realms/wallet/protocol/openid-connect/auth',
+  authorization_endpoint: 'https://sso.krypteo.mn/auth/realms/wallet/protocol/openid-connect/auth',
   revocation_endpoint: '',
-  token_endpoint: 'https://account.krypteo.mn/auth/realms/wallet/protocol/openid-connect/token',
-  userinfo_endpoint:
-    'https://account.krypteo.mn/auth/realms/wallet/protocol/openid-connect/userinfo',
+  token_endpoint: 'https://sso.krypteo.mn/auth/realms/wallet/protocol/openid-connect/token',
+  userinfo_endpoint: 'https://sso.krypteo.mn/auth/realms/wallet/protocol/openid-connect/userinfo',
 };
 export const DEFAULT_SCOPES = ['openid']; // scopes that are always included
 export const DEFAULT_OPTIONAL_SCOPES = ['offline']; // scopes that are included by default, but can be overridden
