@@ -112,8 +112,8 @@ export class ConnectButton {
   }
 
   private configureElement() {
-    this.element.title = 'Continue with Bitski';
-    this.element.innerText = 'Continue with Bitski';
+    this.element.title = 'Krypteo холбох';
+    this.element.innerText = 'Krypteo холбох';
     this.element.className = 'bitski-connect-button';
 
     let sizeClass = '';
