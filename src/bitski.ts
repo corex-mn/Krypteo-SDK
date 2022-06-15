@@ -2,7 +2,6 @@ import { AuthorizationServiceConfiguration } from '@openid/appauth';
 import {
   BitskiEngine,
   BitskiEngineOptions,
-  Mainnet,
   Mumbai,
   Network,
   Polygon,
@@ -24,6 +23,16 @@ import { processCallback } from './utils/callback';
 import { LocalStorageStore } from './utils/localstorage-store';
 import { Store } from './utils/store';
 
+const Mainnet: Network = {
+  chainId: 1104,
+  rpcUrl: 'https://node.corexchain.io',
+};
+
+const Testnet: Network = {
+  chainId: 3305,
+  rpcUrl: 'https://node-testnet.corexchain.io',
+};
+
 export enum OAuthSignInMethod {
   Redirect = 'REDIRECT',
   Popup = 'POPUP',
@@ -43,7 +52,7 @@ export { Store, LocalStorageStore };
 export { SignInOptions, LOGIN_HINT_SIGNUP };
 
 // Networks
-export { Network, Mainnet, Rinkeby, Polygon, Mumbai };
+export { Network, Mainnet, Testnet, Rinkeby, Polygon, Mumbai };
 
 // Type-only for a User. Can be passed around in TypeScript,
 // but not constructed outside this library.
@@ -113,7 +122,7 @@ export class Bitski {
     this.authProvider = new OpenidAuthProvider(
       clientId,
       redirectUri || window.location.href,
-      additionalScopes,
+      additionalScopes || [],
       options,
     );
     if (document && document.body) {
@@ -289,6 +298,8 @@ export class Bitski {
       case '':
       case 'mainnet':
         return Mainnet;
+      case 'testnet':
+        return Testnet;
       case 'rinkeby':
         return Rinkeby;
       case 'polygon':

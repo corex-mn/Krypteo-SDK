@@ -30,7 +30,8 @@ export class PopupBlockedError extends AuthorizationError {
 }
 
 // Create a popup feature string from an object with keys and values
-function createPopupFeatureString(features): string {
+export function createPopupFeatureString(): string {
+  const features = createCenteredPopupFeatures();
   // Convert to array of strings
   const featuresArray = Object.keys(features).reduce((arr, key) => {
     const value = features[key];
@@ -96,9 +97,9 @@ export class PopupRequestHandler extends AuthorizationRequestHandler {
       CHECK_FOR_POPUP_CLOSE_INTERVAL,
     );
     // Create features for popup
-    const windowFeatures = createCenteredPopupFeatures();
+    // const windowFeatures = createCenteredPopupFeatures();
     // Create popup window
-    this.popupWindow = window.open(url, '_blank', createPopupFeatureString(windowFeatures));
+    this.popupWindow = window.open(url, '_blank', createPopupFeatureString());
     // Check if the popup we just created was blocked.
     this.validator.check(this.popupWindow);
     // Focus the popup to bring it to the front

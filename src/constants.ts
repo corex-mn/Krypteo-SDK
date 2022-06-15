@@ -25,8 +25,8 @@ export const CHECK_FOR_POPUP_CLOSE_INTERVAL = 500;
 export const DEFAULT_POPUP_FEATURES = {
   location: 'no',
   toolbar: 'no',
-  width: 500,
-  height: 500,
+  width: 450,
+  height: 700,
   left: 100,
   top: 100,
 };

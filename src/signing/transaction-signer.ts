@@ -3,6 +3,7 @@ import { IFRAME_MESSAGE_ORIGIN_INCLUDES } from '../constants';
 import { SignerError } from '../errors/signer-error';
 import { Transaction } from '../subproviders/signature';
 import { parseResponse } from '../utils/request-utils';
+import { createPopupFeatureString } from '../auth/popup-handler';
 
 // JSON representation of a transaction
 interface JSONTransactionObject {
@@ -149,16 +150,12 @@ export class BitskiTransactionSigner {
 
     return new Promise((fulfill, reject) => {
       const url = `${this.webBaseUrl}/transactions/${transaction.id}?origin=${window.origin}`;
-
       this.currentRequest = [fulfill, reject];
 
-      const left = window.innerWidth / 2;
-      const top = window.innerHeight / 2;
-      this.currentRequestDialog = window.open(
-        url,
-        '_blank',
-        `width=400,height=400,top=${top - 200},left=${left - 200}`,
-      );
+      // const left = window.innerWidth / 2;
+      // const top = window.innerHeight / 2;
+      const windowFeatures = createPopupFeatureString();
+      this.currentRequestDialog = window.open(url, '_blank', windowFeatures);
 
       const checkChild = () => {
         if (this.currentRequestDialog && this.currentRequestDialog.closed) {
