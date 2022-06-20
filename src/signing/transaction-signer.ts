@@ -3,7 +3,8 @@ import { IFRAME_MESSAGE_ORIGIN_INCLUDES } from '../constants';
 import { SignerError } from '../errors/signer-error';
 import { Transaction } from '../subproviders/signature';
 import { parseResponse } from '../utils/request-utils';
-import { createPopupFeatureString } from '../auth/popup-handler';
+// import { createPopupFeatureString } from '../auth/popup-handler';
+import { Dialog } from '../components/dialog';
 
 // JSON representation of a transaction
 interface JSONTransactionObject {
@@ -25,7 +26,7 @@ export class BitskiTransactionSigner {
   protected defaultHeaders: any;
 
   // Current Dialog instance
-  private currentRequestDialog?: WindowProxy | null;
+  private currentRequestDialog?: Dialog | null;
 
   // App Callback URL
   private callbackURL?: string;
@@ -96,7 +97,7 @@ export class BitskiTransactionSigner {
 
     // Dismiss current dialog
     if (this.currentRequestDialog) {
-      this.currentRequestDialog.close();
+      this.currentRequestDialog.dismiss();
     }
 
     // Call the callback to complete the request
@@ -143,33 +144,52 @@ export class BitskiTransactionSigner {
    * @param transaction The transaction that has been submitted
    */
   protected showAuthorizationModal(transaction: Transaction): Promise<any> {
-    if (this.currentRequestDialog && !this.currentRequestDialog.closed) {
-      this.currentRequestDialog.focus();
-      return Promise.resolve('');
-    }
+    // if (this.currentRequestDialog && !this.currentRequestDialog.closed) {
+    //   this.currentRequestDialog.focus();
+    //   return Promise.resolve('');
+    // }
 
     return new Promise((fulfill, reject) => {
       const url = `${this.webBaseUrl}/transactions/${transaction.id}?origin=${window.origin}`;
       this.currentRequest = [fulfill, reject];
 
-      // const left = window.innerWidth / 2;
-      // const top = window.innerHeight / 2;
-      const windowFeatures = createPopupFeatureString();
-      this.currentRequestDialog = window.open(url, '_blank', windowFeatures);
-
-      const checkChild = () => {
-        if (this.currentRequestDialog && this.currentRequestDialog.closed) {
-          reject(SignerError.UserCancelled());
-          clearInterval(timer);
-        }
-      };
-      const timer = setInterval(checkChild, 500);
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'absolute';
+      iframe.style.top = '0';
+      iframe.style.left = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.frameBorder = '0';
+      iframe.src = url;
+      iframe.allowFullscreen = true;
 
       if (this.currentRequestDialog) {
-        this.currentRequestDialog.addEventListener('onunload', () => {
-          reject(SignerError.UserCancelled());
-        });
+        this.currentRequestDialog.close();
       }
+
+      // const windowFeatures = createPopupFeatureString();
+      // this.currentRequestDialog = window.open(url, '_blank', windowFeatures);
+
+      this.currentRequest = [fulfill, reject];
+      this.currentRequestDialog = new Dialog(iframe, true);
+      this.currentRequestDialog.onClose = () => {
+        // Capture reject callback
+        reject(SignerError.UserCancelled());
+      };
+
+      // const checkChild = () => {
+      //   if (this.currentRequestDialog && this.currentRequestDialog.closed) {
+      //     reject(SignerError.UserCancelled());
+      //     clearInterval(timer);
+      //   }
+      // };
+      // const timer = setInterval(checkChild, 500);
+      //
+      // if (this.currentRequestDialog) {
+      //   this.currentRequestDialog.addEventListener('onunload', () => {
+      //     reject(SignerError.UserCancelled());
+      //   });
+      // }
     });
   }
 
